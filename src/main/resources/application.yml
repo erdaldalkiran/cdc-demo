@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: CDC Demo
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      minimum-idle: 1
+      maximum-pool-size: 50
+      auto-commit: true
+      connection-timeout: 10000
+      username: postgres
+      password: pg
+    url: jdbc:postgresql://localhost:5432/counter
+  jpa:
+    database: POSTGRESQL
+    database-platform: org.hibernate.dialect.PostgreSQL95Dialect
+    properties:
+      hibernate:
+        ddl-auto: update
+        temp:
+          use_jdbc_metadata_defaults: false
+    generate-ddl: true
