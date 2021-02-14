@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,7 +13,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import java.time.Instant;
 
 @Getter
 @Setter
@@ -31,6 +29,9 @@ public class CounterEvent {
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "counter_id")
+    private Long counterId;
+
     @Column(name = "prev_count")
     private Long prevCount;
 
@@ -43,7 +44,8 @@ public class CounterEvent {
     @Column(name = "version")
     private Long version;
 
-    public CounterEvent(Long prevCount, Long newCount, Long updatedAt, Long version) {
+    public CounterEvent(Long counterId, Long prevCount, Long newCount, Long updatedAt, Long version) {
+        this.counterId = counterId;
         this.prevCount = prevCount;
         this.newCount = newCount;
         this.updatedAt = updatedAt;

@@ -35,6 +35,7 @@ public class CounterService {
         repository.save(counter);
 
         var event = new CounterEvent(
+            counter.getId(),
             counter.getCount() - 1,
             counter.getCount(),
             counter.getUpdatedAt(),

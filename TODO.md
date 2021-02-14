@@ -1,0 +1,1 @@
+- wal logical olmasi neleri etkiliyor?
