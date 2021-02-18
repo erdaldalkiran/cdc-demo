@@ -1,1 +1,1 @@
-- wal logical olmasi neleri etkiliyor?
+- connector settings slot.name

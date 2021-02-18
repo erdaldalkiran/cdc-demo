@@ -42,5 +42,6 @@ public class CounterService {
             counter.getVersion());
 
         eventRepository.save(event);
+        eventRepository.delete(event);
     }
 }

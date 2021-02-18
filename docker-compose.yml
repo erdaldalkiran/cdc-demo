@@ -2,11 +2,7 @@ version: '3.8'
 services:
   db:
     image: postgres:12.5
-    command:
-      - -c
-      - log_statement=all
-      - -c
-      - wal_level=logical
+    command: -c log_statement=all -c wal_level=logical
     restart: always
     ports:
       - 5432:5432
@@ -36,7 +32,7 @@ services:
     ports:
       - 8081:8081
   connect:
-    image: erdalkiran/kafka-connect:cp_5_4_3_deb_postgre_1_5_0_alpha
+    image: erdalkiran/kafka-connect:cp_5_4_3_deb_postgre_1_4_1_final
     restart: always
     ports:
       - 8083:8083
@@ -50,19 +46,22 @@ services:
       CONNECT_BOOTSTRAP_SERVERS: "kafka1:9092,kafka2:9092,kafka3:9092"
       CONNECT_REST_PORT: 8083
       CONNECT_REST_ADVERTISED_HOST_NAME: "connect"
-      CONNECT_GROUP_ID: connect-group-id
-      CONNECT_CONFIG_STORAGE_TOPIC: connect-configs
-      CONNECT_OFFSET_STORAGE_TOPIC: connect-offsets
-      CONNECT_STATUS_STORAGE_TOPIC: connect-status
+      CONNECT_GROUP_ID: connect-group-id            # debezium icin ayri bir connect clusteri kurup risk dagitilabilir:
+      CONNECT_CONFIG_STORAGE_TOPIC: connect-configs # create topics with infinite retention by default 4 hours
+      CONNECT_OFFSET_STORAGE_TOPIC: connect-offsets # denden
+      CONNECT_STATUS_STORAGE_TOPIC: connect-status # denden
       CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR: "1"
       CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR: "1"
       CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: "1"
       CONNECT_LOG4J_ROOT_LOGLEVEL: "INFO"
       CONNECT_LOG4J_LOGGERS: "org.apache.kafka.connect.runtime.rest=WARN,org.reflections=ERROR"
-      CONNECT_KEY_CONVERTER: org.apache.kafka.connect.json.JsonConverter
-      CONNECT_KEY_CONVERTER_SCHEMA_REGISTRY_URL: 'http://schemaregistry:8081'
-      CONNECT_VALUE_CONVERTER: org.apache.kafka.connect.json.JsonConverter
-      CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL: 'http://schemaregistry:8081'
+      CONNECT_KEY_CONVERTER_SCHEMAS_ENABLE: "false"
+      CONNECT_KEY_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
+#      CONNECT_KEY_CONVERTER: "org.apache.kafka.connect.converters.LongConverter"
+        #      CONNECT_KEY_CONVERTER_SCHEMA_REGISTRY_URL: 'http://schemaregistry:8081'
+      CONNECT_VALUE_CONVERTER_SCHEMAS_ENABLE: "false"
+      CONNECT_VALUE_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
+      #      CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL: 'http://schemaregistry:8081'
       CONNECT_INTERNAL_KEY_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
       CONNECT_INTERNAL_VALUE_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
       CONNECT_PLUGIN_PATH: '/usr/share/java'
