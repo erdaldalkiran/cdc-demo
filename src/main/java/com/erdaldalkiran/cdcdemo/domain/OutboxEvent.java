@@ -32,7 +32,7 @@ public class OutboxEvent {
     private String aggregateType;
 
     @Column(name = "aggregateid")
-    private long aggregateId;
+    private String aggregateId;
 
     @Column(name = "type")
     private String type;
@@ -45,7 +45,7 @@ public class OutboxEvent {
         this.id = UUID.randomUUID();
         this.aggregateType = event.getClass().getSimpleName();
         this.type = event.getClass().getSimpleName();
-        this.aggregateId = event.getId();
+        this.aggregateId = event.getId().toString();
         this.payload = event;
     }
 }
