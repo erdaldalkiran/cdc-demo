@@ -2,8 +2,9 @@ package com.erdaldalkiran.cdcdemo.service;
 
 import com.erdaldalkiran.cdcdemo.domain.Counter;
 import com.erdaldalkiran.cdcdemo.domain.CounterEvent;
-import com.erdaldalkiran.cdcdemo.repository.CounterEventRepository;
+import com.erdaldalkiran.cdcdemo.domain.OutboxEvent;
 import com.erdaldalkiran.cdcdemo.repository.CounterRepository;
+import com.erdaldalkiran.cdcdemo.repository.OutboxEventRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
@@ -16,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class CounterService {
     private final CounterRepository repository;
-    private final CounterEventRepository eventRepository;
+    private final OutboxEventRepository eventRepository;
 
     public Counter create(Counter counter) {
         return repository.save(counter);
@@ -41,7 +42,9 @@ public class CounterService {
             counter.getUpdatedAt(),
             counter.getVersion());
 
-        eventRepository.save(event);
-        eventRepository.delete(event);
+        var outboxEvent = new OutboxEvent(event);
+
+        eventRepository.save(outboxEvent);
+        eventRepository.delete(outboxEvent);
     }
 }
