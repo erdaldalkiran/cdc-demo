@@ -2,6 +2,7 @@ package com.erdaldalkiran.cdcdemo.controller;
 
 import com.erdaldalkiran.cdcdemo.domain.Counter;
 import com.erdaldalkiran.cdcdemo.service.CounterService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,7 @@ public class CounterController {
     }
 
     @PatchMapping("/{id}/increase")
-    public ResponseEntity increase(@PathVariable @Positive long id) {
+    public ResponseEntity increase(@PathVariable @Positive long id) throws JsonProcessingException {
         service.increase(id);
         return ResponseEntity.ok().build();
     }

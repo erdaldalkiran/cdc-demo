@@ -1,13 +1,10 @@
 package com.erdaldalkiran.cdcdemo.domain;
 
-import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,8 +19,8 @@ import java.util.UUID;
 @Entity
 @ToString
 @Table(name = "outbox_event")
-@TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
 public class OutboxEvent {
+
     @Id
     @Column(name = "id")
     private UUID id;
@@ -37,15 +34,14 @@ public class OutboxEvent {
     @Column(name = "type")
     private String type;
 
-    @Type(type = "jsonb")
-    @Column(name = "payload", columnDefinition = "jsonb")
-    private CounterEvent payload;
+    @Column(name = "payload", columnDefinition="bytea")
+    private byte[] payload;
 
-    public OutboxEvent(CounterEvent event) {
+    public OutboxEvent(CounterEvent event, byte[] payload) {
         this.id = UUID.randomUUID();
         this.aggregateType = event.getClass().getSimpleName();
         this.type = event.getClass().getSimpleName();
         this.aggregateId = event.getId().toString();
-        this.payload = event;
+        this.payload =payload;
     }
 }
