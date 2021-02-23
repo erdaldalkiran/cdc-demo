@@ -49,6 +49,6 @@ public class CounterService {
         var outboxEvent = new OutboxEvent(event, data);
 
         eventRepository.save(outboxEvent);
-        eventRepository.delete(outboxEvent);
+        //eventRepository.delete(outboxEvent);
     }
 }

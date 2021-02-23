@@ -15,3 +15,18 @@ wal_level (enum)
     In logical level, the same information is logged as with replica, plus information needed to allow extracting logical change sets from the WAL. Using a level of logical will increase the WAL volume, particularly if many tables are configured for REPLICA IDENTITY FULL and many UPDATE and DELETE statements are executed.
 
     In releases prior to 9.6, this parameter also allowed the values archive and hot_standby. These are still accepted but mapped to replica.
+
+Replications slots
+
+    Replications slots are definitely beneficial once enabled. By default, "Replication Slots" are not enabled and have to be set  manually. Among the advantages of using Replication Slots are
+
+        Ensures master retains enough WAL segments for all replicas to receive them
+        Prevents the master from removing rows that could cause recovery conflict on the replicas
+        A master can only recycle the transaction log once it has been consumed by all replicas. The advantage here is that a slave can never fall behind so much that a re-sync is needed.
+
+    Replication slots also come with some caveats.
+
+        An orphan replication slot can cause unbounded disk growth due to piled up WAL files from the master
+        Slave nodes placed under long maintenance (such as days or weeks) and that are tied to a replication slot will have unbounded disk growth due to piled up WAL files from the master
+
+    You can monitor this by querying pg_replication_slots to determine the slots that are not used. We'll check back on this a bit later.
