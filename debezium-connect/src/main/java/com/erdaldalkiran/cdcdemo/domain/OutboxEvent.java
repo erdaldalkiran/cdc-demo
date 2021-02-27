@@ -34,14 +34,22 @@ public class OutboxEvent {
     @Column(name = "type")
     private String type;
 
-    @Column(name = "payload", columnDefinition="bytea")
+    @Column(name = "payload", columnDefinition = "bytea")
     private byte[] payload;
 
-    public OutboxEvent(CounterEvent event, byte[] payload) {
-        this.id = UUID.randomUUID();
+    @Column(name = "correlation_id")
+    private String correlationId;
+
+    @Column(name = "timestamp")
+    private Long timestamp;
+
+    public OutboxEvent(UUID id, CounterEvent event, byte[] payload, String correlationId) {
+        this.id = id;
         this.aggregateType = event.getClass().getSimpleName();
         this.type = event.getClass().getSimpleName();
         this.aggregateId = event.getId().toString();
-        this.payload =payload;
+        this.payload = payload;
+        this.correlationId = correlationId;
+        this.timestamp = 1612270800000L;
     }
 }

@@ -26,6 +26,8 @@ curl --location --request POST 'http://localhost:8083/connectors' \
         "value.converter.delegate.converter.type.schemas.enable": "false",
         "transforms": "outbox",
         "transforms.outbox.type": "io.debezium.transforms.outbox.EventRouter",
-        "transforms.outbox.route.topic.replacement": "ciko.lata.any.greek.god.name.${routedByValue}"
+        "transforms.outbox.route.topic.replacement": "ciko.lata.any.greek.god.name.counter-events.0",
+        "transforms.outbox.topic.regex": "ciko.lata.any.greek.god.name.counter-events.0",
+        "transforms.outbox.table.fields.additional.placement": "correlation_id:header:X-CorrelationId,id:header:event-id"
     }
 }'
