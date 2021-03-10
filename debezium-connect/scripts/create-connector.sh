@@ -13,6 +13,7 @@ curl --location --request POST 'http://localhost:8083/connectors' \
         "database.dbname": "counter",
         "database.server.name": "counter",
         "table.include.list": "public.outbox_event",
+        "publication.name": "deb_connect_pub",
         "slot.name": "deb_connect_slot",
         "slot.retry.delay.ms": "5000",
         "tombstones.on.delete": false,

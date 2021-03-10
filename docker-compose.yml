@@ -32,7 +32,9 @@ services:
     ports:
       - 8081:8081
   connect:
-    image: debezium/connect:1.4.1.Final
+    build:
+      context: ./connect-image
+      dockerfile: Dockerfile
     restart: always
     ports:
       - 8083:8083
