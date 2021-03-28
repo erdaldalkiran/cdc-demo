@@ -16,6 +16,7 @@ curl --location --request POST 'http://localhost:8083/connectors' \
         "publication.name": "deb_connect_pub",
         "slot.name": "deb_connect_slot",
         "slot.retry.delay.ms": "5000",
+        "snapshot.mode": "never",
         "tombstones.on.delete": false,
         "heartbeat.interval.ms": 5000,
         "heartbeat.topics.prefix": "__debezium-heartbeat",

@@ -2,4 +2,4 @@ kafka:
   broker: localhost:19092,localhost:29092,localhost:39092
   group-id: cdc-demo-consumer
   auto-off-reset: earliest
-  topic: ciko.lata.any.greek.god.name.CounterEvent
+  topic: ciko.lata.any.greek.god.name.counter-events.0
