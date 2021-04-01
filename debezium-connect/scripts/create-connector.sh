@@ -15,6 +15,7 @@ curl --location --request POST 'http://localhost:8083/connectors' \
         "table.include.list": "public.outbox_event",
         "publication.name": "deb_connect_pub",
         "slot.name": "deb_connect_slot",
+        "slot.max.retries": 100,
         "slot.retry.delay.ms": "5000",
         "snapshot.mode": "never",
         "tombstones.on.delete": false,
