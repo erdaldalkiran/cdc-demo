@@ -50,6 +50,6 @@ public class OutboxEvent {
         this.aggregateId = event.getId().toString();
         this.payload = payload;
         this.correlationId = correlationId;
-        this.timestamp = 1612270800000L;
+        this.timestamp = event.getUpdatedAt();
     }
 }
