@@ -3,8 +3,11 @@ package com.erdaldalkiran.cdcdemo.service;
 import com.erdaldalkiran.cdcdemo.domain.Counter;
 import com.erdaldalkiran.cdcdemo.domain.CounterEvent;
 import com.erdaldalkiran.cdcdemo.domain.OutboxEvent;
+import com.erdaldalkiran.cdcdemo.domain.RandomEvent;
+import com.erdaldalkiran.cdcdemo.domain.RandomOutboxEvent;
 import com.erdaldalkiran.cdcdemo.repository.CounterRepository;
 import com.erdaldalkiran.cdcdemo.repository.OutboxEventRepository;
+import com.erdaldalkiran.cdcdemo.repository.RandomOutboxEventRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +28,7 @@ import static com.erdaldalkiran.cdcdemo.controller.WebInterceptor.CORRELATION_ID
 public class CounterService {
     private final CounterRepository repository;
     private final OutboxEventRepository eventRepository;
+    private final RandomOutboxEventRepository randomEventRepository;
     private final static ObjectMapper mapper = new ObjectMapper();
 
     public Counter create(Counter counter) {
@@ -55,8 +59,16 @@ public class CounterService {
         var correlationId = MDC.get(CORRELATION_ID);
         var data = mapper.writeValueAsBytes(event);
         var outboxEvent = new OutboxEvent(eventId, event, data, correlationId);
-
         eventRepository.save(outboxEvent);
-//        eventRepository.delete(outboxEvent);
+
+        var randomEvent = new RandomEvent(
+            counter.getId(),
+            counter.getCount().toString(),
+            counter.getUpdatedAt(),
+            counter.getVersion(),
+            UUID.randomUUID());
+
+        var randomOutboxEvent = new RandomOutboxEvent(eventId, randomEvent, mapper.writeValueAsBytes(randomEvent), correlationId);
+        randomEventRepository.save(randomOutboxEvent);
     }
 }
