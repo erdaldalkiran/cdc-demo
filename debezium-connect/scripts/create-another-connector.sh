@@ -10,7 +10,7 @@ curl --location --request POST 'http://localhost:8083/connectors' \
         "database.user": "postgres",
         "database.password": "pg",
         "database.dbname": "counter",
-        "database.server.name": "counter",
+        "database.server.name": "random",
         "table.include.list": "public.random_event",
         "plugin.name": "pgoutput",
         "publication.name": "deb_connect_random_pub",
