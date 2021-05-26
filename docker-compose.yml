@@ -38,6 +38,7 @@ services:
     restart: always
     ports:
       - 8083:8083
+      - 9091:9090
     depends_on:
       - zookeeper
       - schemaregistry
@@ -50,8 +51,8 @@ services:
       CONFIG_STORAGE_TOPIC: deb-connect-configs
       OFFSET_STORAGE_TOPIC: deb-connect-offsets
       STATUS_STORAGE_TOPIC: deb-connect-status
-      KAFKA_JMX_HOSTNAME: 0.0.0.0
-      KAFKA_JMX_PORT: 1976
+      KAFKA_JMX_HOSTNAME: ${DOCKER_HOST_IP:-0.0.0.0}
+      KAFKA_JMX_PORT: 9101
       KAFKA_JMX_OPTS: "-javaagent:/kafka/jmx_prometheus_javaagent.jar=9090:/kafka/config/jmx.yml"
   kafka1:
     image: confluentinc/cp-kafka:5.4.3
