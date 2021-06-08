@@ -1,9 +1,7 @@
 #!/bin/bash
-curl --location --request POST 'http://localhost:8083/connectors' \
+curl --location --request PUT 'http://localhost:8083/connectors/random-event-connector/config' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-    "name": "random-event-connector",
-    "config": {
         "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
         "database.hostname": "db",
         "database.port": "5432",
@@ -32,5 +30,4 @@ curl --location --request POST 'http://localhost:8083/connectors' \
         "transforms.outbox.route.topic.replacement": "ciko.lata.any.greek.god.name.random-events.0",
         "transforms.outbox.topic.regex": "ciko.lata.any.greek.god.name.random-events.0",
         "transforms.outbox.table.fields.additional.placement": "correlation_id:header:X-CorrelationId,id:header:event-id"
-    }
 }'
